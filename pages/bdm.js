@@ -208,9 +208,9 @@ export default function BDMDiagnosticV3() {
             <p style={{ fontSize: "1.0rem", color: C.muted }}>Lafayette, LA · 35+ Team Members · 3 Offices · Catastrophic PI</p>
             <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1.1rem", textAlign: "left", maxWidth: "460px", margin: "1.3rem auto 1.8rem" }}>
               {[["AI Champion", "Tim Rinaldi"], ["Platform", "SmartAdvocate (built-in AI)"], ["AI Tools", "Supio + SA AI Suite"], ["Opportunity", "Equip your team and tools to stay ahead of the curve"]].map(([l, v], i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.3rem 0", borderBottom: i < 3 ? `1px solid #f0eee9` : "none" }}>
-                  <span style={{ fontSize: "0.92rem", color: C.muted }}>{l}</span>
-                  <span style={{ fontSize: "0.92rem", color: i === 3 ? C.process : C.dark, fontWeight: 500 }}>{v}</span>
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: "1rem", padding: "0.4rem 0", borderBottom: i < 3 ? `1px solid #f0eee9` : "none" }}>
+                  <span style={{ fontSize: "0.92rem", color: C.muted, flexShrink: 0 }}>{l}</span>
+                  <span style={{ fontSize: "0.92rem", color: i === 3 ? C.process : C.dark, fontWeight: 500, textAlign: "right" }}>{v}</span>
                 </div>
               ))}
             </div>
