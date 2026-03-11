@@ -465,5 +465,6 @@ export default function BDMDiagnosticV3() {
         )}
       </div>
     </div>
+    </>
   );
 }
