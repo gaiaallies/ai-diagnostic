@@ -269,7 +269,7 @@ export default function BDMDiagnosticV3() {
             <Section title="What We Found">
 
               <PillarGroup pillar="PEOPLE">
-                <AccordionItem pillar="PEOPLE" title="No AI Policy in Place" defaultOpen={true}>
+                <AccordionItem pillar="PEOPLE" title="No AI Policy in Place" defaultOpen={false}>
                   <p>With 35+ team members across three offices, some of your staff are almost certainly using consumer AI tools without safeguards. For an AV-rated, board-certified firm handling cases worth millions, this is real ethical exposure.</p>
                   <p style={{ marginTop: "0.4rem" }}>An effective AI policy would be developed alongside your attorneys to ensure compliance with Louisiana bar ethics rules, and with firm leadership to ensure it reflects your service delivery standards and brand integrity. The framework: a three-tier data classification (Public, Confidential, Sensitive) with clear guidance on which tools are approved for each.</p>
                 </AccordionItem>
