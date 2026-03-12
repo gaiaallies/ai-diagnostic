@@ -414,21 +414,24 @@ export default function DemoDiagnostic() {
                 </div>
 
                 {/* Investment summary */}
-                <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
-                  <div style={{ flex: 1, minWidth: "200px", padding: "0.7rem", background: C.dataBg, borderRadius: "6px", textAlign: "center" }}>
-                    <p style={{ fontSize: "0.8rem", color: C.muted }}>Your Investment</p>
-                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.data, fontFamily: "'Instrument Serif'" }}>$5K – $8.5K</p>
-                    <p style={{ fontSize: "0.75rem", color: C.muted }}>60-day engagement</p>
-                  </div>
+            <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: "200px", padding: "0.7rem", background: C.processBg, borderRadius: "6px", textAlign: "center" }}>
-                    <p style={{ fontSize: "0.8rem", color: C.muted }}>Time Recovered Weekly</p>
-                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.process, fontFamily: "'Instrument Serif'" }}>60 – 110+ hrs</p>
-                    <p style={{ fontSize: "0.75rem", color: C.muted }}>across your 10-person team</p>
+                    <p style={{ fontSize: "0.8rem", color: C.muted }}>Start Here</p>
+                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.process, fontFamily: "'Instrument Serif'" }}>$1,500</p>
+                    <p style={{ fontSize: "0.82rem", color: C.text, fontWeight: 500 }}>Full AI Readiness Diagnostic</p>
+                    <p style={{ fontSize: "0.72rem", color: C.muted, lineHeight: 1.4, marginTop: "4px" }}>Discovery call, team assessment, technology audit, and detailed interactive report with scored findings and recommendations</p>
+                  </div>
+                  <div style={{ flex: 1, minWidth: "200px", padding: "0.7rem", background: C.dataBg, borderRadius: "6px", textAlign: "center" }}>
+                    <p style={{ fontSize: "0.8rem", color: C.muted }}>Full Engagement</p>
+                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.data, fontFamily: "'Instrument Serif'" }}>$7K – $12K</p>
+                    <p style={{ fontSize: "0.82rem", color: C.text, fontWeight: 500 }}>Implement + Train (60 days)</p>
+                    <p style={{ fontSize: "0.72rem", color: C.muted, lineHeight: 1.4, marginTop: "4px" }}>Configuration, SOP development, prompt library build, hands-on training, and post-training support</p>
                   </div>
                   <div style={{ flex: 1, minWidth: "200px", padding: "0.7rem", background: C.peopleBg, borderRadius: "6px", textAlign: "center" }}>
-                    <p style={{ fontSize: "0.8rem", color: C.muted }}>What That Means</p>
-                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.people, fontFamily: "'Instrument Serif'" }}>More cases handled</p>
-                    <p style={{ fontSize: "0.75rem", color: C.muted }}>stronger prep, faster filings, more referrals</p>
+                    <p style={{ fontSize: "0.8rem", color: C.muted }}>What You Get Back</p>
+                    <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.people, fontFamily: "'Instrument Serif'" }}>15+ hrs/week</p>
+                    <p style={{ fontSize: "0.82rem", color: C.text, fontWeight: 500 }}>Time recovered across your team</p>
+                    <p style={{ fontSize: "0.72rem", color: C.muted, lineHeight: 1.4, marginTop: "4px" }}>Reinvest in more clients, better work-life balance, or both</p>
                   </div>
                 </div>
               </div>
