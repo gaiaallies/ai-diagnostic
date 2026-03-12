@@ -151,7 +151,6 @@ function PhaseBlock({ num, title, groups }) {
   );
 }
 
-/* ── Discovery caveat note ── */
 function CaveatNote({ children }) {
   return (
     <div style={{
@@ -161,6 +160,15 @@ function CaveatNote({ children }) {
     }}>
       <span style={{ fontSize: "0.9rem", flexShrink: 0, marginTop: "1px" }}>*</span>
       <p style={{ fontSize: "0.88rem", color: C.muted, lineHeight: 1.55, margin: 0, fontStyle: "italic" }}>{children}</p>
+    </div>
+  );
+}
+
+function CaseStudyCard({ stat, label, color }) {
+  return (
+    <div style={{ flex: "1 1 120px", textAlign: "center", padding: "0.6rem 0.4rem" }}>
+      <p style={{ fontSize: "1.3rem", fontWeight: 700, color, fontFamily: "'Instrument Serif'" }}>{stat}</p>
+      <p style={{ fontSize: "0.78rem", color: C.muted, lineHeight: 1.4, marginTop: "2px" }}>{label}</p>
     </div>
   );
 }
@@ -187,7 +195,6 @@ export default function DemoDiagnostic() {
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "'DM Sans', sans-serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
-      {/* Sticky Header */}
       <div style={{ background: "#fff", borderBottom: `1px solid ${C.border}`, padding: "0.65rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ width: "26px", height: "26px", borderRadius: "6px", background: C.process, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "0.85rem", fontWeight: 700 }}>GA</div>
@@ -201,7 +208,6 @@ export default function DemoDiagnostic() {
 
       <div style={{ maxWidth: "820px", margin: "0 auto", padding: "1.5rem 1.2rem 4rem" }}>
 
-        {/* ════════ READY ════════ */}
         {stage === "ready" && (
           <div style={{ textAlign: "center", padding: "2.5rem 0.5rem" }}>
             <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "2.1rem", fontWeight: 400, color: C.dark, marginBottom: "0.4rem" }}>Harper Reid Employment Law</h1>
@@ -218,7 +224,6 @@ export default function DemoDiagnostic() {
           </div>
         )}
 
-        {/* ════════ GENERATING ════════ */}
         {stage === "gen" && (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 1rem" }}>
             <div style={{ width: "260px", height: "4px", background: "#eae8e3", borderRadius: "2px", overflow: "hidden", marginBottom: "1rem" }}>
@@ -228,12 +233,10 @@ export default function DemoDiagnostic() {
           </div>
         )}
 
-        {/* ════════ REPORT ════════ */}
         {stage === "report" && (
           <div style={{ animation: "fi 0.6s ease" }}>
             <style>{`@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}`}</style>
 
-            {/* Header */}
             <div style={{ marginBottom: "1.3rem" }}>
               <div style={{ display: "inline-block", padding: "3px 10px", background: C.process, borderRadius: "3px", marginBottom: "0.4rem" }}>
                 <span style={{ fontSize: "0.72rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#fff", fontWeight: 600 }}>AI Readiness Diagnostic</span>
@@ -242,7 +245,6 @@ export default function DemoDiagnostic() {
               <p style={{ fontSize: "0.95rem", color: C.muted }}>Austin, TX · 10 Team Members · Employment Law · March 2026</p>
             </div>
 
-            {/* Snapshot */}
             <Section title="Your Firm at a Glance">
               <p style={{ fontSize: "0.82rem", color: C.text, lineHeight: 1.7 }}>
                 Your firm is a 10-person employment law practice in Austin, TX handling workplace discrimination, wrongful termination, wage and hour disputes, and EEOC compliance. You are on Clio Manage with Manage AI available. An AI champion has not yet been identified.
@@ -252,7 +254,6 @@ export default function DemoDiagnostic() {
               </p>
             </Section>
 
-            {/* AI Readiness Scores */}
             <Section title="Your AI Readiness Scores">
               <CaveatNote>
                 These preliminary scores are based on an initial conversation and publicly available information about your firm. A comprehensive discovery process would refine these scores based on team interviews, workflow audits, and a full technology assessment.
@@ -265,9 +266,7 @@ export default function DemoDiagnostic() {
               </div>
             </Section>
 
-            {/* ═══ FINDINGS ═══ */}
             <Section title="What We Found">
-
               <PillarGroup pillar="PEOPLE">
                 <AccordionItem pillar="PEOPLE" title="No AI Policy in Place" defaultOpen={true}>
                   <p>Employment law firms handle highly sensitive employee data, EEOC filings, and confidential settlement negotiations. Without a formal AI policy, team members may be using consumer AI tools with client data, creating real ethical exposure.</p>
@@ -296,12 +295,9 @@ export default function DemoDiagnostic() {
                   <p style={{ marginTop: "0.4rem" }}>In comparable firms, matter summarization alone saves 30-60 minutes per case. Automated billing reduces invoice generation from hours to minutes. You are paying for these features.</p>
                 </AccordionItem>
               </PillarGroup>
-
             </Section>
 
-            {/* ═══ RECOMMENDATIONS ═══ */}
             <Section title="What We Recommend">
-
               <PillarGroup pillar="PEOPLE">
                 <AccordionItem pillar="PEOPLE" title="AI Usage Policy" effort="Quick Win" defaultOpen={true}>
                   <p>Create a firm-wide policy with three-tier data classification, approved tools, and workflow guidelines. Developed collaboratively with your attorneys to ensure compliance with employment law data sensitivity: employee records, settlement terms, and EEOC filings require strict handling protocols.</p>
@@ -338,10 +334,8 @@ export default function DemoDiagnostic() {
                   <p>Clio Draft offers AI-powered document automation integrated with your matter data. Combined with vLex-powered legal research, your attorneys can research, draft, and refine employment law documents without leaving the platform.</p>
                 </AccordionItem>
               </PillarGroup>
-
             </Section>
 
-            {/* Tool Stack */}
             <Section title="Your Recommended Tool Stack">
               <CaveatNote>
                 This is a demonstration of the AI Ready Diagnostic methodology. A real engagement begins with a comprehensive discovery covering your full technology stack, team workflows, and practice-area-specific needs.
@@ -360,7 +354,6 @@ export default function DemoDiagnostic() {
               </div>
             </Section>
 
-            {/* 90-Day Roadmap */}
             <Section title="Your 90-Day Roadmap">
               <PhaseBlock num="1" title="Foundation (Days 1-30)" groups={[
                 { pillar: "PEOPLE", items: ["Draft and implement your AI usage policy with employment-law-specific data handling", "Identify your AI champion to drive adoption across the team"] },
@@ -379,7 +372,34 @@ export default function DemoDiagnostic() {
               ]} />
             </Section>
 
-            {/* ═══ ROI — Rethought ═══ */}
+            {/* ═══ CASE STUDY ═══ */}
+            <Section title="What This Looks Like in Practice">
+              <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "1.1rem" }}>
+                <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.process, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>Recent Engagement</p>
+                <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.15rem", color: C.dark, marginBottom: "0.5rem" }}>20-Person Litigation Firm</h3>
+                <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7, marginBottom: "0.6rem" }}>
+                  A 20-person litigation firm came to us with powerful AI tools already built into their practice management system. Like most firms, they had barely scratched the surface. Their team had access to AI features but was not using the prompt library, had no knowledge base configured, and had no AI usage policy in place.
+                </p>
+                <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7, marginBottom: "0.8rem" }}>
+                  We delivered a full-day, hands-on training built around their actual matters, their real documents, and their configured tools. Every exercise used their cases, not generic examples. The results speak for themselves:
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", background: C.processBg, borderRadius: "8px", padding: "0.8rem 0.4rem", marginBottom: "0.8rem" }}>
+                  <CaseStudyCard stat="15/15" label="Positive evaluations from participants" color={C.process} />
+                  <CaseStudyCard stat="20 min" label="What used to take half a day" color={C.data} />
+                  <CaseStudyCard stat="Day 1" label="Team using AI daily from the start" color={C.people} />
+                </div>
+                <div style={{ background: "#faf9f5", borderRadius: "6px", padding: "0.8rem 1rem", borderLeft: `3px solid ${C.process}` }}>
+                  <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>
+                    "This training exceeded our expectations and has already created a real sense of energy and momentum in the office."
+                  </p>
+                  <p style={{ fontSize: "0.82rem", color: C.muted, marginTop: "0.3rem", margin: "0.3rem 0 0 0" }}>Managing Partner</p>
+                </div>
+                <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7, marginTop: "0.8rem" }}>
+                  The difference was not the technology. It was the approach: understanding their team dynamics, building exercises around their actual work, configuring their tools properly, and giving every person multiple pathways to the same outcome so they could find their comfort level. That is the same approach we bring to every engagement.
+                </p>
+              </div>
+            </Section>
+
             <Section title="The Value of Getting This Right">
               <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "1.1rem" }}>
                 <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7, marginBottom: "0.5rem" }}>
@@ -390,7 +410,6 @@ export default function DemoDiagnostic() {
                 </p>
 
                 <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.process, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem" }}>Where You Recover Time</p>
-
                 <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", marginBottom: "1rem" }}>
                   <ROICard label="Matter Summarization" value="30-60 min/case" color={C.process} desc="Catching up on a case file reduced from 30 minutes to under 2 minutes" />
                   <ROICard label="Document Drafting" value="2-3 hrs/doc" color={C.process} desc="EEOC responses, demand letters, and agreements drafted in minutes" />
@@ -398,7 +417,6 @@ export default function DemoDiagnostic() {
                 </div>
 
                 <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.people, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem" }}>Where You Gain the Edge</p>
-
                 <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", marginBottom: "1rem" }}>
                   <ROICard label="Case Preparation" value="Better armed" color={C.people} desc="More thorough case analysis means stronger positions in negotiation and litigation" />
                   <ROICard label="Case Throughput" value="More matters" color={C.people} desc="Handle additional employment cases with your existing 10-person team" />
@@ -406,15 +424,13 @@ export default function DemoDiagnostic() {
                 </div>
 
                 <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.dark, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem" }}>The Competitive Reality</p>
-
                 <div style={{ background: "#faf9f5", borderRadius: "6px", padding: "0.8rem 1rem", marginBottom: "1rem" }}>
                   <p style={{ fontSize: "0.95rem", color: C.text, lineHeight: 1.7 }}>
                     Opposing counsel is adopting these tools. HR departments and in-house counsel increasingly expect outside firms to work at AI speed. Getting there first means you set the standard. Getting there late means adjusting to someone else's.
                   </p>
                 </div>
 
-                {/* Investment summary */}
-            <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: "200px", padding: "0.7rem", background: C.processBg, borderRadius: "6px", textAlign: "center" }}>
                     <p style={{ fontSize: "0.8rem", color: C.muted }}>Start Here</p>
                     <p style={{ fontSize: "1.4rem", fontWeight: 700, color: C.process, fontFamily: "'Instrument Serif'" }}>$1,500</p>
@@ -437,16 +453,15 @@ export default function DemoDiagnostic() {
               </div>
             </Section>
 
-            {/* How We Work Together */}
             <Section title="How We Work Together">
               <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "1.1rem" }}>
-                <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.process, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>Recommended</p>
-                <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.3rem", color: C.dark, marginBottom: "0.7rem" }}>Implement + Train (Hybrid)</h3>
+                <p style={{ fontSize: "0.82rem", fontWeight: 600, color: C.process, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem" }}>Recommended Path</p>
+                <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.3rem", color: C.dark, marginBottom: "0.7rem" }}>Discover → Implement → Train</h3>
                 {[
-                  ["Week 1", "Discovery Deep-Dive", "Full Clio audit, team interviews, AI policy draft, employment workflow mapping"],
-                  ["Weeks 2-3", "Implementation Sprint", "Activate Manage AI features, build employment law prompt library, run pilot cases"],
-                  ["Week 4", "Immersive Training Day", "Role-based sessions with your real employment cases, shared prompt library build"],
-                  ["Weeks 5-8", "Advisory Support", "Bi-weekly check-ins, adoption monitoring, tool evaluations, ROI measurement"],
+                  ["Step 1", "Discovery Call (Free)", "30-minute conversation to understand your firm, your team, and your goals"],
+                  ["Step 2", "AI Readiness Diagnostic ($1,500)", "Full assessment across People, Process, and Technology with a scored report and roadmap"],
+                  ["Step 3", "Implementation + Training", "Configure your tools, build your prompt library, deliver hands-on training with your real matters"],
+                  ["Ongoing", "Advisory Support (Optional)", "Monthly check-ins, prompt library updates, new feature training, and adoption monitoring"],
                 ].map(([time, title, desc], i) => (
                   <div key={i} style={{ display: "flex", gap: "12px", padding: "0.45rem 0", borderBottom: i < 3 ? `1px solid #f0eee9` : "none" }}>
                     <span style={{ fontSize: "0.82rem", fontWeight: 600, color: C.process, minWidth: "65px", flexShrink: 0 }}>{time}</span>
@@ -456,13 +471,25 @@ export default function DemoDiagnostic() {
               </div>
             </Section>
 
-            {/* Footer */}
+            {/* ═══ CTA ═══ */}
+            <Section title="Ready to See What Your Firm's Diagnostic Looks Like?">
+              <div style={{ background: C.processBg, borderRadius: "8px", padding: "1.2rem", textAlign: "center" }}>
+                <p style={{ fontSize: "1.0rem", color: C.text, lineHeight: 1.7, marginBottom: "0.8rem" }}>
+                  This is a sample report. Your firm's diagnostic would be built around your specific team, your workflows, your technology stack, and your practice areas. It starts with a free 30-minute discovery call.
+                </p>
+                <div style={{ display: "flex", gap: "0.8rem", justifyContent: "center", flexWrap: "wrap" }}>
+                  <a href="https://calendly.com/amy-adams/discovery" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", padding: "0.7rem 1.5rem", background: C.process, borderRadius: "8px", color: "#fff", fontSize: "0.95rem", fontWeight: 500, textDecoration: "none", cursor: "pointer" }}>Book a Discovery Call</a>
+                  <a href="https://gaiaallies.com/aiready" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", padding: "0.7rem 1.5rem", background: "#fff", border: `1px solid ${C.process}`, borderRadius: "8px", color: C.process, fontSize: "0.95rem", fontWeight: 500, textDecoration: "none", cursor: "pointer" }}>Visit gaiaallies.com/aiready</a>
+                </div>
+              </div>
+            </Section>
+
             <div style={{ marginTop: "2rem", paddingTop: "0.8rem", borderTop: `2px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.6rem" }}>
               <div>
                 <p style={{ fontSize: "0.9rem", color: C.process, fontWeight: 500 }}>Gaia Allies · AI Strategy & Training for Law Firms</p>
                 <p style={{ fontSize: "0.8rem", color: C.light }}>amy@gaiaallies.com · gaiaallies.com/aiready</p>
               </div>
-              <button onClick={() => { setStage("ready"); setProgress(0); }} style={{ padding: "0.4rem 1rem", background: C.process, border: "none", borderRadius: "6px", color: "#fff", fontSize: "0.88rem", cursor: "pointer" }}>New Diagnostic</button>
+              <button onClick={() => { setStage("ready"); setProgress(0); }} style={{ padding: "0.4rem 1rem", background: C.process, border: "none", borderRadius: "6px", color: "#fff", fontSize: "0.88rem", cursor: "pointer" }}>Reset Demo</button>
             </div>
           </div>
         )}
