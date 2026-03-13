@@ -161,7 +161,7 @@ export default function SmokballFamilyLawDiagnostic() {
             <div style={{ display: "inline-block", padding: "3px 12px", background: C.process, borderRadius: "3px", marginBottom: "0.6rem" }}>
               <span style={{ fontSize: "0.58rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#fff", fontWeight: 600 }}>AI Readiness Diagnostic</span>
             </div>
-            <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.8rem", fontWeight: 400, color: C.dark, marginBottom: "0.4rem" }}>Sample Family Law Firm</h1>
+            <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.8rem", fontWeight: 400, color: C.dark, marginBottom: "0.4rem" }}>Carrington Cole Law Firm</h1>
             <p style={{ fontSize: "0.83rem", color: C.muted }}>15 Team Members {"\u00B7"} Smokeball + Archie AI {"\u00B7"} Family Law</p>
             <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1.1rem", textAlign: "left", maxWidth: "460px", margin: "1.3rem auto 1.8rem" }}>
               {[["Firm Size", "4 Attorneys, 11 Support Staff"], ["Platform", "Smokeball (Archie AI built-in)"], ["Practice Areas", "Divorce, Custody, Estate Planning"], ["Opportunity", "Powerful AI tools sitting untapped"]].map(([l, v], i) => (
@@ -192,7 +192,7 @@ export default function SmokballFamilyLawDiagnostic() {
               <div style={{ display: "inline-block", padding: "3px 10px", background: C.process, borderRadius: "3px", marginBottom: "0.4rem" }}>
                 <span style={{ fontSize: "0.58rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#fff", fontWeight: 600 }}>AI Readiness Diagnostic</span>
               </div>
-              <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.5rem", fontWeight: 400, color: C.dark }}>Sample Family Law Firm</h1>
+              <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.5rem", fontWeight: 400, color: C.dark }}>Carrington Cole Law Firm</h1>
               <p style={{ fontSize: "0.78rem", color: C.muted }}>15 Team Members {"\u00B7"} Smokeball + Archie AI {"\u00B7"} Family Law {"\u00B7"} March 2026</p>
             </div>
 
