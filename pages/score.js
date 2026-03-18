@@ -307,14 +307,42 @@ export default function AIReadinessScore() {
   const [info, setInfo] = useState({});
   const [emailTouched, setEmailTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [showPeek, setShowPeek] = useState(true);
+  const [showPeek, setShowPeek] = useState(false);
   const topRef = useRef(null);
   const scrollTop = () => { if (topRef.current) topRef.current.scrollIntoView({ behavior: "smooth", block: "start" }); };
   const goTo = (s) => { setStep(s); setTimeout(scrollTop, 100); };
 
-  const calcPillar = (qs) => { const a = qs.filter(q => !q.isDataOnly && (!q.showWhen || q.showWhen(answers)) && answers[q.id] !== undefined); if (!a.length) return 0; return a.reduce((s, q) => s + (answers[q.id] || 0), 0) / a.length; };
+  const calcPillar = (qs) => { const a = qs.filter(q => !q.isDataOnly && (!q.showWhen || q.showWhen(answers)) && answers[q.id] !== undefined); if (!a.length) return 0; const raw = a.reduce((s, q) => s + (answers[q.id] || 0), 0) / a.length; return Math.min(raw, 4.8); };
   const pS = calcPillar(QUESTIONS.people), prS = calcPillar(QUESTIONS.process), tS = calcPillar(QUESTIONS.tech);
-  const overall = (pS + prS + tS) / 3; const zone = getZone(overall);
+  const overall = Math.min((pS + prS + tS) / 3, 4.8); const zone = getZone(overall);
+
+  /* Zone-specific sneak peek content */
+  const PEEK_BY_ZONE = {
+    foundation: [
+      { pillar: "PEOPLE", title: "Team Readiness Assessment", desc: "Understand where each team member stands on AI comfort and identify who can lead adoption from within" },
+      { pillar: "PROCESS", title: "Workflow Gap Analysis", desc: "Map your current workflows and pinpoint the highest-impact opportunities for AI to recover capacity" },
+      { pillar: "TECHNOLOGY", title: "Technology Utilization Audit", desc: "Discover which AI features you are already paying for but not using across your current platforms" },
+      { pillar: "FIRM-WIDE", title: "AI Governance Kit", desc: "Policies, disclosures, and staff guidelines so your team can use AI safely and ethically from day one" },
+      { pillar: "FIRM-WIDE", title: "90-Day Foundation Roadmap", desc: "A phased plan to move from zero to structured AI adoption with clear milestones for your first 90 days" },
+      { pillar: "FIRM-WIDE", title: "Full AI Strategy Blueprint", desc: "Your complete scored report with findings, recommendations, and a clear path to your first engagement" },
+    ],
+    growth: [
+      { pillar: "PEOPLE", title: "Adoption Gap Assessment", desc: "Identify why some team members are using AI and others are not, with role-specific recommendations to close the gap" },
+      { pillar: "PROCESS", title: "Workflow Optimization Map", desc: "Analyze which workflows are partially AI-assisted and what it takes to fully integrate them end to end" },
+      { pillar: "TECHNOLOGY", title: "Feature Utilization Audit", desc: "A feature-by-feature breakdown of what your platforms offer versus what your team actually uses day to day" },
+      { pillar: "FIRM-WIDE", title: "AI Governance Kit", desc: "Formalize the policies your team needs now that AI usage is growing beyond your early adopters" },
+      { pillar: "FIRM-WIDE", title: "90-Day Activation Roadmap", desc: "A plan to move from uneven adoption to firm-wide integration with structured training and accountability" },
+      { pillar: "FIRM-WIDE", title: "Full AI Strategy Blueprint", desc: "Your complete scored report showing exactly where to invest next for the highest return on your AI spend" },
+    ],
+    optimization: [
+      { pillar: "PEOPLE", title: "Champion Network Design", desc: "Structure your internal AI leadership so adoption sustains itself without depending on a single person" },
+      { pillar: "PROCESS", title: "Advanced Workflow Audit", desc: "Identify the remaining manual bottlenecks and second-order optimizations your team has not tackled yet" },
+      { pillar: "TECHNOLOGY", title: "Stack Optimization Review", desc: "Evaluate whether your current tools are still the right fit or if emerging platforms would serve you better" },
+      { pillar: "FIRM-WIDE", title: "AI Governance Update", desc: "Ensure your policies and disclosures keep pace with how your team is actually using AI today" },
+      { pillar: "FIRM-WIDE", title: "90-Day Scaling Roadmap", desc: "A plan to deepen what is working, expand to new practice areas, and build the systems that compound over time" },
+      { pillar: "FIRM-WIDE", title: "Full AI Strategy Blueprint", desc: "Your complete scored report with strategic recommendations for maintaining your competitive advantage" },
+    ],
+  };
 
   const emailOk = isValidEmail(info.email || "");
   const practiceAreaTotal = (info.practiceAreas || []).reduce((s, a) => s + a.pct, 0);
@@ -528,18 +556,24 @@ export default function AIReadinessScore() {
       </div>
     </div>
     <div style={{ background: `${C.gold}10`, border: `1px solid ${C.gold}30`, borderRadius: "8px", padding: "16px 20px", marginBottom: "28px" }}>
-      <p style={{ fontSize: "13px", color: C.text, lineHeight: 1.7, margin: 0 }}><strong style={{ color: C.gold }}>About this benchmark:</strong> This reflects what you shared today and provides a directional view of where your firm stands. A comprehensive AI Readiness Assessment evaluates your full workflows, team dynamics, and technology utilization across a 90-minute guided session. That is where the complete picture emerges.</p>
+      <p style={{ fontSize: "13px", color: C.text, lineHeight: 1.7, margin: 0 }}><strong style={{ color: C.gold }}>About this benchmark:</strong> This reflects what you shared today and provides a directional view of where your firm stands. The AI Strategy Blueprint is a comprehensive, hands-on engagement that evaluates your full workflows, team dynamics, and technology utilization in depth. That is where the complete picture emerges.</p>
     </div>
 
-    {/* Sneak Peek */}
+    {/* Sneak Peek - Zone Dynamic */}
     <div style={{ marginBottom: "28px" }}>
-      <button onClick={() => setShowPeek(!showPeek)} style={{ width: "100%", background: C.card, border: `2px solid ${C.gold}40`, borderRadius: "12px", padding: "24px 28px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 2px 12px rgba(196,153,60,0.08)" }} onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.boxShadow = "0 4px 20px rgba(196,153,60,0.15)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.gold}40`; e.currentTarget.style.boxShadow = "0 2px 12px rgba(196,153,60,0.08)"; }}>
-        <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2px", textTransform: "uppercase", color: C.gold, marginBottom: "6px" }}>WHAT YOU UNLOCK</p>
-        <p style={{ fontSize: "18px", fontWeight: 600, color: C.body, marginBottom: "10px" }}>Inside the full AI Readiness Assessment</p>
+      <button onClick={() => setShowPeek(!showPeek)} style={{
+        width: "100%", background: `linear-gradient(135deg, ${C.dark}, #2d3b4a)`,
+        border: `2px solid ${C.gold}50`, borderRadius: "12px", padding: "28px 28px",
+        cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        transition: "all 0.3s", boxShadow: "0 4px 16px rgba(26,35,50,0.15)",
+      }} onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.boxShadow = "0 6px 24px rgba(196,153,60,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.gold}50`; e.currentTarget.style.boxShadow = "0 4px 16px rgba(26,35,50,0.15)"; }}>
+        <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>WHAT YOU UNLOCK</p>
+        <p style={{ fontSize: "19px", fontWeight: 600, color: "#fff", marginBottom: "12px", textAlign: "center" }}>Inside the AI Strategy Blueprint</p>
+        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", marginBottom: "14px", textAlign: "center" }}>Tailored to your {zone.name} Zone results</p>
         <span style={{ fontSize: "28px", color: C.gold, transition: "transform 0.3s", transform: showPeek ? "rotate(180deg)" : "rotate(0)", lineHeight: 1 }}>&#9662;</span>
       </button>
-      {showPeek && <div style={{ marginTop: "8px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-        {SNEAK_PEEK.map((item, i) => { const pc = { PEOPLE: C.people, PROCESS: C.process, TECHNOLOGY: C.data, "FIRM-WIDE": C.dark }; return (
+      {showPeek && <div style={{ marginTop: "10px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        {(PEEK_BY_ZONE[zone.key] || PEEK_BY_ZONE.foundation).map((item, i) => { const pc = { PEOPLE: C.people, PROCESS: C.process, TECHNOLOGY: C.data, "FIRM-WIDE": C.dark }; return (
           <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderLeft: `3px solid ${pc[item.pillar] || C.dark}`, borderRadius: "10px", padding: "16px 16px 16px 18px", opacity: 0, animation: `fadeSlide 0.4s ease ${i * 0.07}s forwards` }}>
             <PillarBadge pillar={item.pillar} />
             <p style={{ fontSize: "14px", fontWeight: 600, color: C.body, marginTop: "8px", marginBottom: "4px", lineHeight: 1.4 }}>{item.title}</p>
@@ -551,9 +585,9 @@ export default function AIReadinessScore() {
     {/* CTA */}
     <div style={{ background: `linear-gradient(165deg, ${C.dark} 0%, #2d3b4a 40%, #3a4f3a 100%)`, borderRadius: "12px", padding: "40px 28px", textAlign: "center", marginBottom: "20px" }}>
       <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>READY FOR THE FULL PICTURE?</p>
-      <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The AI Readiness Assessment</h3>
+      <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The AI Strategy Blueprint</h3>
       <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>See everything this benchmark cannot show you. Your full workflows, your team dynamics, your technology utilization, all mapped across a 90-minute guided session.</p>
-      <a href="https://diagnostic.gaiaallies.com/discover" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
+      <a href="https://gaiaallies.com/aiready/discover" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
     </div>
 
     <div style={{ textAlign: "center", paddingTop: "16px" }}>
