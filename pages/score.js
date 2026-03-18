@@ -187,16 +187,6 @@ const ZONES = [
 ];
 function getZone(s) { if (s <= 2.3) return ZONES[0]; if (s <= 3.7) return ZONES[1]; return ZONES[2]; }
 
-/* ═══ SNEAK PEEK (Firm-Wide instead of ALL) ═══ */
-const SNEAK_PEEK = [
-  { pillar: "PEOPLE", title: "Team Readiness Map", desc: "Role-by-role assessment of where each team member stands, with specific pathways for attorneys, paralegals, and staff" },
-  { pillar: "PROCESS", title: "Workflow Opportunity Audit", desc: "Your actual workflows analyzed against AI-accelerated alternatives, with time recovery estimates per task" },
-  { pillar: "TECHNOLOGY", title: "Technology Utilization Report", desc: "Feature-by-feature analysis of what your current platforms can do versus what your team is using today" },
-  { pillar: "FIRM-WIDE", title: "90-Day AI Roadmap", desc: "A phased, prioritized plan built specifically for your firm, not generic advice, but your roadmap" },
-  { pillar: "FIRM-WIDE", title: "AI Governance Kit", desc: "Usage policies, ethics disclosures, and staff guidelines drafted for your firm and your jurisdiction" },
-  { pillar: "FIRM-WIDE", title: "Full AI Readiness Report", desc: "Comprehensive scored assessment with findings, recommendations, and a clear engagement path forward" },
-];
-
 /* ════════════════════════════════════════════════════
    COMPONENTS
    ════════════════════════════════════════════════════ */
@@ -586,8 +576,8 @@ export default function AIReadinessScore() {
     <div style={{ background: `linear-gradient(165deg, ${C.dark} 0%, #2d3b4a 40%, #3a4f3a 100%)`, borderRadius: "12px", padding: "40px 28px", textAlign: "center", marginBottom: "20px" }}>
       <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>READY FOR THE FULL PICTURE?</p>
       <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The AI Strategy Blueprint</h3>
-      <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>See everything this benchmark cannot show you. Your full workflows, your team dynamics, your technology utilization, all mapped across a 90-minute guided session.</p>
-      <a href="https://gaiaallies.com/aiready/discover" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
+      <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>See everything this benchmark cannot show you. Your full workflows, your team dynamics, your technology utilization, all evaluated in depth with a comprehensive deliverable package you can act on immediately.</p>
+      <a href="https://gaiaallies.com/discover" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
     </div>
 
     <div style={{ textAlign: "center", paddingTop: "16px" }}>
