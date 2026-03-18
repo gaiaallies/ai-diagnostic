@@ -69,17 +69,20 @@ const TOOL_CATEGORIES = [
     "CoCounsel (Thomson Reuters)", "Fastcase / vLex", "Harvey",
     "Lexis+ AI", "Vincent AI", "Westlaw Precision", "Other (Research)",
   ]},
-  { name: "Litigation, PI, and Document AI", tools: [
-    "Clearbrief", "Darrow", "EsquireTek", "EvenUp",
-    "Lex Machina", "Parambil", "Spellbook", "Supio", "Other (Litigation/Doc AI)",
+  { name: "Litigation, PI, Document AI, and eDiscovery", tools: [
+    "Clearbrief", "Darrow", "DISCO", "EsquireTek", "EvenUp", "Everlaw",
+    "Lex Machina", "Parambil", "Relativity", "Supio", "Other (Litigation/eDiscovery)",
+  ]},
+  { name: "Contract and Document Automation", tools: [
+    "Gavel", "LegalOn", "Spellbook", "Other (Contract/Automation)",
   ]},
   { name: "Meeting, Communication, and Transcription", tools: [
     "Fathom", "Fireflies.ai", "Jamie", "Otter.ai", "Read.ai",
     "Tactiq", "Teams + Copilot", "Zoom AI Companion", "Other (Meeting/Transcription)",
   ]},
   { name: "CRM, Intake, Marketing, and Billing", tools: [
-    "Billables AI", "Captorra", "Clio Grow", "HubSpot",
-    "Lawmatics", "Law Ruler", "Litify", "QuickBooks",
+    "Billables AI", "Clio Grow", "HubSpot", "Lawmatics",
+    "Law Ruler", "LeanLaw", "Litify", "QuickBooks",
     "Salesforce", "Smith.ai", "TimeSolv", "Zoho CRM", "Other (CRM/Billing)",
   ]},
   { name: "Project Management and Collaboration", tools: [
@@ -304,7 +307,7 @@ export default function AIReadinessScore() {
   const [info, setInfo] = useState({});
   const [emailTouched, setEmailTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [showPeek, setShowPeek] = useState(false);
+  const [showPeek, setShowPeek] = useState(true);
   const topRef = useRef(null);
   const scrollTop = () => { if (topRef.current) topRef.current.scrollIntoView({ behavior: "smooth", block: "start" }); };
   const goTo = (s) => { setStep(s); setTimeout(scrollTop, 100); };
@@ -530,9 +533,10 @@ export default function AIReadinessScore() {
 
     {/* Sneak Peek */}
     <div style={{ marginBottom: "28px" }}>
-      <button onClick={() => setShowPeek(!showPeek)} style={{ width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: "12px", padding: "20px 24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = C.gold} onMouseLeave={e => e.currentTarget.style.borderColor = C.border}>
-        <div style={{ textAlign: "left" }}><p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2px", textTransform: "uppercase", color: C.gold, marginBottom: "4px" }}>WHAT YOU UNLOCK</p><p style={{ fontSize: "17px", fontWeight: 600, color: C.body }}>Inside the full AI Readiness Assessment</p></div>
-        <span style={{ fontSize: "18px", color: C.gold, transition: "transform 0.3s", transform: showPeek ? "rotate(180deg)" : "rotate(0)" }}>&#9662;</span>
+      <button onClick={() => setShowPeek(!showPeek)} style={{ width: "100%", background: C.card, border: `2px solid ${C.gold}40`, borderRadius: "12px", padding: "24px 28px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 2px 12px rgba(196,153,60,0.08)" }} onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.boxShadow = "0 4px 20px rgba(196,153,60,0.15)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.gold}40`; e.currentTarget.style.boxShadow = "0 2px 12px rgba(196,153,60,0.08)"; }}>
+        <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2px", textTransform: "uppercase", color: C.gold, marginBottom: "6px" }}>WHAT YOU UNLOCK</p>
+        <p style={{ fontSize: "18px", fontWeight: 600, color: C.body, marginBottom: "10px" }}>Inside the full AI Readiness Assessment</p>
+        <span style={{ fontSize: "28px", color: C.gold, transition: "transform 0.3s", transform: showPeek ? "rotate(180deg)" : "rotate(0)", lineHeight: 1 }}>&#9662;</span>
       </button>
       {showPeek && <div style={{ marginTop: "8px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
         {SNEAK_PEEK.map((item, i) => { const pc = { PEOPLE: C.people, PROCESS: C.process, TECHNOLOGY: C.data, "FIRM-WIDE": C.dark }; return (
