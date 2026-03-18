@@ -63,33 +63,33 @@ const PLATFORMS = [
 const TOOL_CATEGORIES = [
   { name: "General-Purpose AI and Productivity", tools: [
     "ChatGPT / OpenAI", "Claude / Anthropic", "Gemini / Google", "Google NotebookLM",
-    "Grammarly", "Microsoft Copilot", "Microsoft Copilot Notebooks", "Perplexity", "Other",
+    "Grammarly", "Microsoft Copilot", "Microsoft Copilot Notebooks", "Perplexity", "Other (AI/Productivity)",
   ]},
   { name: "Legal Research", tools: [
     "CoCounsel (Thomson Reuters)", "Fastcase / vLex", "Harvey",
-    "Lexis+ AI", "Vincent AI", "Westlaw Precision", "Other",
+    "Lexis+ AI", "Vincent AI", "Westlaw Precision", "Other (Research)",
   ]},
   { name: "Litigation, PI, and Document AI", tools: [
     "Clearbrief", "Darrow", "EsquireTek", "EvenUp",
-    "Lex Machina", "Parambil", "Spellbook", "Supio", "Other",
+    "Lex Machina", "Parambil", "Spellbook", "Supio", "Other (Litigation/Doc AI)",
   ]},
   { name: "Meeting, Communication, and Transcription", tools: [
     "Fathom", "Fireflies.ai", "Jamie", "Otter.ai", "Read.ai",
-    "Tactiq", "Teams + Copilot", "Zoom AI Companion", "Other",
+    "Tactiq", "Teams + Copilot", "Zoom AI Companion", "Other (Meeting/Transcription)",
   ]},
   { name: "CRM, Intake, Marketing, and Billing", tools: [
     "Billables AI", "Captorra", "Clio Grow", "HubSpot",
     "Lawmatics", "Law Ruler", "Litify", "QuickBooks",
-    "Salesforce", "Smith.ai", "TimeSolv", "Zoho CRM", "Other",
+    "Salesforce", "Smith.ai", "TimeSolv", "Zoho CRM", "Other (CRM/Billing)",
   ]},
   { name: "Project Management and Collaboration", tools: [
     "Asana", "ClickUp", "Monday.com", "Notion",
-    "Slack", "Trello", "Microsoft Teams", "Other",
+    "Slack", "Trello", "Microsoft Teams", "Other (Project Mgmt)",
   ]},
   { name: "Document Management and E-Signature", tools: [
     "Adobe Acrobat / Sign", "Clio Manage Docs", "DocuSign",
     "Dropbox", "Google Drive / Workspace", "NetDocuments",
-    "SharePoint / OneDrive", "Other",
+    "SharePoint / OneDrive", "Other (Doc Mgmt/E-Sign)",
   ]},
 ];
 
