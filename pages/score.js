@@ -572,6 +572,90 @@ export default function AIReadinessScore() {
       </div>}
     </div>
 
+    {/* Save / Print Results */}
+    <div style={{ textAlign: "center", marginBottom: "28px" }}>
+      <button onClick={() => {
+        const w = window.open("", "_blank");
+        const peekItems = PEEK_BY_ZONE[zone.key] || PEEK_BY_ZONE.foundation;
+        w.document.write(`<!DOCTYPE html><html><head><title>AI Readiness Benchmark Results - ${info.firm}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #1a1a2e; line-height: 1.7; max-width: 700px; margin: 0 auto; padding: 40px 32px; }
+          .header { background: linear-gradient(165deg, #1a2332 0%, #2d3b4a 40%, #3a4f3a 100%); padding: 40px 32px; border-radius: 12px; text-align: center; margin-bottom: 32px; }
+          .pill { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c4993c; border: 1px solid rgba(196,153,60,0.3); padding: 5px 16px; border-radius: 16px; display: inline-block; margin-bottom: 20px; }
+          .header h1 { font-family: Georgia, serif; font-size: 32px; color: #fff; font-weight: normal; margin-bottom: 8px; }
+          .header h1 em { color: #c4993c; font-style: italic; }
+          .header p { font-size: 15px; color: rgba(255,255,255,0.6); }
+          .scores { display: flex; justify-content: center; gap: 32px; margin: 24px 0; padding: 24px; background: #f4f2ed; border-radius: 10px; }
+          .score-item { text-align: center; }
+          .score-num { font-size: 28px; font-weight: 700; }
+          .score-label { font-size: 12px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+          .zone-badge { display: inline-block; background: #1a2332; color: #c4993c; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 6px 16px; border-radius: 4px; text-transform: uppercase; }
+          .section { margin-top: 28px; }
+          .section h2 { font-family: Georgia, serif; font-size: 22px; font-weight: normal; margin-bottom: 12px; }
+          .section p { font-size: 14px; color: #6b6b6b; line-height: 1.7; }
+          .step { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+          .step-num { width: 22px; height: 22px; border-radius: 50%; background: #e8ede6; color: #4a6741; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+          .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+          .unlock-card { border: 1px solid #e8e4de; border-radius: 8px; padding: 16px; border-left: 3px solid #4a6741; }
+          .unlock-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+          .unlock-card p { font-size: 12px; color: #8a8a8a; }
+          .cta { background: linear-gradient(165deg, #1a2332 0%, #2d3b4a 40%, #3a4f3a 100%); padding: 32px; border-radius: 12px; text-align: center; margin-top: 32px; }
+          .cta h3 { font-family: Georgia, serif; font-size: 22px; color: #fff; font-weight: normal; margin-bottom: 8px; }
+          .cta p { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+          .cta a { display: inline-block; background: #c4993c; color: #1a2332; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; }
+          .footer { text-align: center; margin-top: 24px; font-size: 11px; color: #8a8a8a; }
+          @media print { body { padding: 20px; } .cta a { color: #1a2332 !important; } }
+        </style></head><body>
+        <div class="header">
+          <span class="pill">GAIA ALLIES | AI READY</span>
+          <h1>${zone.name} <em>Zone</em></h1>
+          <p>${zone.tagline}</p>
+        </div>
+        <div style="text-align:center;margin-bottom:8px;">
+          <span class="zone-badge">${zone.name} Zone</span>
+        </div>
+        <div class="scores">
+          <div class="score-item"><div class="score-num" style="color:#6B4C9A;">${pS.toFixed(1)}</div><div class="score-label">People</div></div>
+          <div class="score-item"><div class="score-num" style="color:#4a6741;">${prS.toFixed(1)}</div><div class="score-label">Process</div></div>
+          <div class="score-item"><div class="score-num" style="color:#c4993c;">${tS.toFixed(1)}</div><div class="score-label">Technology</div></div>
+          <div class="score-item"><div class="score-num" style="color:#1a2332;">${overall.toFixed(1)}</div><div class="score-label">Overall</div></div>
+        </div>
+        <div class="section">
+          <h2>Your Results</h2>
+          <p>${zone.desc}</p>
+        </div>
+        <div class="section">
+          <h2>Recommended Next Steps</h2>
+          ${zone.steps.map((s, i) => `<div class="step"><span class="step-num">${i + 1}</span><p style="font-size:14px;color:#1a1a2e;">${s}</p></div>`).join("")}
+        </div>
+        <div class="section">
+          <h2>What the AI Strategy Blueprint Reveals</h2>
+          <div class="unlock-grid">
+            ${peekItems.map(item => `<div class="unlock-card"><h4>${item.title}</h4><p>${item.desc}</p></div>`).join("")}
+          </div>
+        </div>
+        <div class="cta">
+          <h3>Ready for the full picture?</h3>
+          <p>The AI Strategy Blueprint evaluates your firm in depth and delivers a comprehensive package you can act on immediately.</p>
+          <a href="https://gaiaallies.com/discover">See What Is Included</a>
+        </div>
+        <div class="footer">
+          <p>Prepared for ${info.firm} | ${new Date().toLocaleDateString()}</p>
+          <p>Gaia Allies | AI Ready | gaiaallies.com/aiready</p>
+        </div>
+        </body></html>`);
+        w.document.close();
+      }} style={{
+        background: "transparent", border: `1.5px solid ${C.green}`, borderRadius: "6px",
+        padding: "12px 28px", fontSize: "14px", fontWeight: 600, color: C.green,
+        fontFamily: SANS, cursor: "pointer", transition: "all 0.25s",
+      }}>
+        Save or Print My Results
+      </button>
+      <p style={{ fontSize: "12px", color: C.muted, marginTop: "8px" }}>Opens a printable version you can save as PDF or share with your team</p>
+    </div>
+
     {/* CTA */}
     <div style={{ background: `linear-gradient(165deg, ${C.dark} 0%, #2d3b4a 40%, #3a4f3a 100%)`, borderRadius: "12px", padding: "40px 28px", textAlign: "center", marginBottom: "20px" }}>
       <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>READY FOR THE FULL PICTURE?</p>
