@@ -397,8 +397,7 @@ export default function AIReadinessScore() {
   const submit = async () => {
     setSubmitting(true);
 
-    /* Build individual question answers */
-    const qa = {};
+    /* Build answer for each question */
     const getAnswer = (q) => {
       const val = answers[q.id];
       if (val === undefined) return "Not answered";
@@ -406,37 +405,36 @@ export default function AIReadinessScore() {
       const o = q.options.find(o => o.score === val);
       return o ? o.label : "Not answered";
     };
-    QUESTIONS.people.forEach(q => { qa[`People - ${q.text}`] = getAnswer(q); });
-    QUESTIONS.process.forEach(q => { qa[`Process - ${q.text}`] = getAnswer(q); });
-    QUESTIONS.tech.forEach(q => {
-      if (q.showWhen && !q.showWhen(answers)) return;
-      qa[`Technology - ${q.text}`] = getAnswer(q);
-    });
 
-    /* Send directly to Web3Forms */
+    /* Send directly to Web3Forms - all fields */
     try {
+      const payload = {
+        access_key: "084aac1f-48ea-409c-8de0-a1a2a4437153",
+        subject: `New Benchmark: ${info.firm} - ${zone.name} Zone (${overall.toFixed(1)}/5)`,
+        from_name: "AI Readiness Benchmark",
+        "1_Name": info.name,
+        "2_Email": info.email,
+        "3_Firm": info.firm,
+        "4_Role": info.role,
+        "5_Firm_Size": info.firmSize,
+        "6_Practice_Areas": (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
+        "7_Platform": info.platform,
+        "8_Tools": (info.tools || []).join(", ") || "None",
+        "9_SCORES": `Overall: ${overall.toFixed(1)}/5 | People: ${pS.toFixed(1)}/5 | Process: ${prS.toFixed(1)}/5 | Tech: ${tS.toFixed(1)}/5 | Zone: ${zone.name}`,
+      };
+
+      /* Add each question answer */
+      QUESTIONS.people.forEach((q, i) => { payload[`P${i+1}_${q.id}`] = `${q.text} => ${getAnswer(q)}`; });
+      QUESTIONS.process.forEach((q, i) => { payload[`PR${i+1}_${q.id}`] = `${q.text} => ${getAnswer(q)}`; });
+      QUESTIONS.tech.forEach((q, i) => {
+        if (q.showWhen && !q.showWhen(answers)) return;
+        payload[`T${i+1}_${q.id}`] = `${q.text} => ${getAnswer(q)}`;
+      });
+
       const r = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: "084aac1f-48ea-409c-8de0-a1a2a4437153",
-          subject: `New Benchmark: ${info.firm} - ${zone.name} Zone (${overall.toFixed(1)}/5)`,
-          from_name: "AI Readiness Benchmark",
-          name: info.name,
-          email: info.email,
-          firm: info.firm,
-          role: info.role,
-          firm_size: info.firmSize,
-          practice_areas: (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
-          platform: info.platform,
-          tools: (info.tools || []).join(", ") || "None",
-          overall_score: `${overall.toFixed(1)} / 5`,
-          zone: zone.name,
-          people_score: `${pS.toFixed(1)} / 5`,
-          process_score: `${prS.toFixed(1)} / 5`,
-          tech_score: `${tS.toFixed(1)} / 5`,
-          ...qa,
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await r.json();
       console.log("Web3Forms response:", data);
