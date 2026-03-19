@@ -1,8 +1,6 @@
 // pages/api/benchmark-submit.js
-// Sends email notification via Resend when someone completes the benchmark
-//
-// Environment variable needed in Vercel:
-//   RESEND_API_KEY — from resend.com dashboard
+// Sends benchmark submission data to Amy via Web3Forms
+// No environment variables needed - uses the same Web3Forms key as the discover page
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -16,79 +14,43 @@ export default async function handler(req, res) {
   }
 
   try {
-    const emailRes = await fetch("https://api.resend.com/emails", {
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: "AI Ready Benchmark <onboarding@resend.dev>",
-        to: ["amy@gaiaallies.com"],
+        access_key: "084aac1f-48ea-409c-8de0-a1a2a4437153",
         subject: `New Benchmark: ${info.firm} — ${zone} Zone (${scores.overall}/5)`,
-        text: summary,
-        html: `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a2e;">
-            <div style="background: linear-gradient(165deg, #1a2332 0%, #2d3b4a 40%, #3a4f3a 100%); padding: 24px 28px; border-radius: 8px 8px 0 0;">
-              <p style="color: #c4993c; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 8px;">NEW BENCHMARK SUBMISSION</p>
-              <h2 style="color: #fff; font-size: 22px; margin: 0; font-weight: normal;">${info.firm}</h2>
-              <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin: 6px 0 0;">${info.name} — ${info.role}</p>
-            </div>
-
-            <div style="background: #f4f2ed; padding: 20px 28px; border: 1px solid #e8e4de;">
-              <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                  <td style="text-align: center; padding: 8px;">
-                    <p style="font-size: 28px; font-weight: 700; color: #c4993c; margin: 0;">${scores.overall}</p>
-                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Overall</p>
-                  </td>
-                  <td style="text-align: center; padding: 8px;">
-                    <p style="font-size: 28px; font-weight: 700; color: #6B4C9A; margin: 0;">${scores.people}</p>
-                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">People</p>
-                  </td>
-                  <td style="text-align: center; padding: 8px;">
-                    <p style="font-size: 28px; font-weight: 700; color: #4a6741; margin: 0;">${scores.process}</p>
-                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Process</p>
-                  </td>
-                  <td style="text-align: center; padding: 8px;">
-                    <p style="font-size: 28px; font-weight: 700; color: #c4993c; margin: 0;">${scores.tech}</p>
-                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Technology</p>
-                  </td>
-                </tr>
-              </table>
-              <div style="text-align: center; margin-top: 12px;">
-                <span style="background: #1a2332; color: #c4993c; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 4px 14px; border-radius: 4px; text-transform: uppercase;">${zone} Zone</span>
-              </div>
-            </div>
-
-            <div style="background: #fff; padding: 24px 28px; border: 1px solid #e8e4de; border-top: none;">
-              <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-                <tr><td style="padding: 6px 0; color: #8a8a8a; width: 140px;">Email</td><td style="padding: 6px 0; color: #1a1a2e;"><a href="mailto:${info.email}" style="color: #4a6741;">${info.email}</a></td></tr>
-                <tr><td style="padding: 6px 0; color: #8a8a8a;">Firm Size</td><td style="padding: 6px 0; color: #1a1a2e;">${info.firmSize}</td></tr>
-                <tr><td style="padding: 6px 0; color: #8a8a8a;">Practice Areas</td><td style="padding: 6px 0; color: #1a1a2e;">${practiceAreas}</td></tr>
-                <tr><td style="padding: 6px 0; color: #8a8a8a;">Platform</td><td style="padding: 6px 0; color: #1a1a2e;">${info.platform}</td></tr>
-                <tr><td style="padding: 6px 0; color: #8a8a8a;">Additional Tools</td><td style="padding: 6px 0; color: #1a1a2e;">${tools || "None selected"}</td></tr>
-              </table>
-            </div>
-
-            <div style="background: #fff; padding: 24px 28px; border: 1px solid #e8e4de; border-top: none; border-radius: 0 0 8px 8px;">
-              <p style="font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #c4993c; margin: 0 0 12px;">FULL RESPONSES</p>
-              <pre style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 13px; color: #6b6b6b; line-height: 1.7; white-space: pre-wrap; margin: 0; background: #f4f2ed; padding: 16px; border-radius: 6px;">${summary}</pre>
-            </div>
-          </div>
-        `,
+        from_name: "AI Readiness Benchmark",
+        // Contact Info
+        "Name": info.name,
+        "Email": info.email,
+        "Firm": info.firm,
+        "Role": info.role,
+        "Firm Size": info.firmSize,
+        "Practice Areas": practiceAreas,
+        "Platform": info.platform,
+        "Additional Tools": tools || "None selected",
+        // Scores
+        "Overall Score": `${scores.overall} / 5`,
+        "Zone": zone,
+        "People Score": `${scores.people} / 5`,
+        "Process Score": `${scores.process} / 5`,
+        "Technology Score": `${scores.tech} / 5`,
+        // Full Responses
+        "Full Responses": summary,
       }),
     });
 
-    if (emailRes.ok) {
+    const data = await response.json();
+
+    if (data.success) {
       return res.status(200).json({ success: true });
     } else {
-      const err = await emailRes.json();
-      console.error("Resend error:", err);
-      return res.status(200).json({ success: false, error: "email_failed" });
+      console.error("Web3Forms error:", data);
+      return res.status(200).json({ success: false, error: "send_failed" });
     }
   } catch (e) {
-    console.error("Email send error:", e);
+    console.error("Submit error:", e);
     return res.status(200).json({ success: false, error: "exception" });
   }
 }
