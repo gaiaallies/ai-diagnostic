@@ -621,8 +621,23 @@ export default function AIReadinessScore() {
           <h1>${zone.name} <em>Zone</em></h1>
           <p>${zone.tagline}</p>
         </div>
-        <div style="text-align:center;margin-bottom:8px;">
-          <span class="zone-badge">${zone.name} Zone</span>
+        <div style="max-width:500px;margin:24px auto 20px;">
+          <div style="display:flex;gap:4px;margin-bottom:8px;position:relative;">
+            <div style="flex:1;height:8px;border-radius:4px 0 0 4px;background:${zone.key === 'foundation' ? '#c4993c' : '#d4d0c8'};"></div>
+            <div style="flex:1;height:8px;background:${zone.key === 'growth' ? '#4a6741' : '#d4d0c8'};"></div>
+            <div style="flex:1;height:8px;border-radius:0 4px 4px 0;background:${zone.key === 'optimization' ? '#6B4C9A' : '#d4d0c8'};"></div>
+            <div style="position:absolute;top:-8px;left:${zone.key === 'foundation' ? '16.6%' : zone.key === 'growth' ? '50%' : '83.3%'};transform:translateX(-50%);font-size:14px;color:#1a1a2e;">&#9660;</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#8a8a8a;text-transform:uppercase;letter-spacing:1px;">
+            <span style="flex:1;text-align:center;${zone.key === 'foundation' ? 'color:#c4993c;font-weight:700;' : ''}">Foundation</span>
+            <span style="flex:1;text-align:center;${zone.key === 'growth' ? 'color:#4a6741;font-weight:700;' : ''}">Growth</span>
+            <span style="flex:1;text-align:center;${zone.key === 'optimization' ? 'color:#6B4C9A;font-weight:700;' : ''}">Optimization</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:2px;">
+            <span style="flex:1;text-align:center;">0 - 2.3</span>
+            <span style="flex:1;text-align:center;">2.4 - 3.7</span>
+            <span style="flex:1;text-align:center;">3.8 - 4.8</span>
+          </div>
         </div>
         <div class="scores">
           <div class="score-item"><div class="score-num" style="color:#6B4C9A;">${pS.toFixed(1)}<span style="font-size:14px;color:#8a8a8a;font-weight:400;"> / 5</span></div><div class="score-label">People</div></div>
