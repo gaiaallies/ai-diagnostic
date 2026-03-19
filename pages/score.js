@@ -395,33 +395,33 @@ export default function AIReadinessScore() {
 
   const submit = async () => {
     setSubmitting(true);
-    const summary = buildSummary();
 
-    /* Send directly to Web3Forms (same approach as discover page sign-up) */
+    /* Send directly to Web3Forms - essential fields only */
     try {
-      await fetch("https://api.web3forms.com/submit", {
+      const r = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           access_key: "084aac1f-48ea-409c-8de0-a1a2a4437153",
-          subject: `New Benchmark: ${info.firm} — ${zone.name} Zone (${overall.toFixed(1)}/5)`,
+          subject: `New Benchmark: ${info.firm} - ${zone.name} Zone (${overall.toFixed(1)}/5)`,
           from_name: "AI Readiness Benchmark",
-          "Name": info.name,
-          "Email": info.email,
-          "Firm": info.firm,
-          "Role": info.role,
-          "Firm Size": info.firmSize,
-          "Practice Areas": (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
-          "Platform": info.platform,
-          "Additional Tools": (info.tools || []).join(", ") || "None selected",
-          "Overall Score": `${overall.toFixed(1)} / 5`,
-          "Zone": zone.name,
-          "People Score": `${pS.toFixed(1)} / 5`,
-          "Process Score": `${prS.toFixed(1)} / 5`,
-          "Technology Score": `${tS.toFixed(1)} / 5`,
-          "Full Responses": summary,
+          name: info.name,
+          email: info.email,
+          firm: info.firm,
+          role: info.role,
+          firm_size: info.firmSize,
+          practice_areas: (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
+          platform: info.platform,
+          tools: (info.tools || []).join(", ") || "None",
+          overall_score: `${overall.toFixed(1)} / 5`,
+          zone: zone.name,
+          people_score: `${pS.toFixed(1)} / 5`,
+          process_score: `${prS.toFixed(1)} / 5`,
+          tech_score: `${tS.toFixed(1)} / 5`,
         }),
       });
+      const data = await r.json();
+      console.log("Web3Forms response:", data);
     } catch (e) { console.log("Web3Forms error:", e); }
 
     setSubmitting(false); setStep("results"); setTimeout(scrollTop, 100);
