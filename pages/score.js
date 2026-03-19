@@ -397,24 +397,33 @@ export default function AIReadinessScore() {
     setSubmitting(true);
     const summary = buildSummary();
 
-    /* Send everything to our API route which handles HubSpot contact + note + email to Amy */
+    /* Send directly to Web3Forms (same approach as discover page sign-up) */
     try {
-      await fetch("/api/benchmark-submit", {
+      await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          info,
-          scores: { people: pS.toFixed(1), process: prS.toFixed(1), tech: tS.toFixed(1), overall: overall.toFixed(1) },
-          zone: zone.name,
-          summary,
-          practiceAreas: (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
-          tools: (info.tools || []).join(", "),
+          access_key: "084aac1f-48ea-409c-8de0-a1a2a4437153",
+          subject: `New Benchmark: ${info.firm} — ${zone.name} Zone (${overall.toFixed(1)}/5)`,
+          from_name: "AI Readiness Benchmark",
+          "Name": info.name,
+          "Email": info.email,
+          "Firm": info.firm,
+          "Role": info.role,
+          "Firm Size": info.firmSize,
+          "Practice Areas": (info.practiceAreas || []).map(a => `${a.name} (${a.pct}%)`).join(", "),
+          "Platform": info.platform,
+          "Additional Tools": (info.tools || []).join(", ") || "None selected",
+          "Overall Score": `${overall.toFixed(1)} / 5`,
+          "Zone": zone.name,
+          "People Score": `${pS.toFixed(1)} / 5`,
+          "Process Score": `${prS.toFixed(1)} / 5`,
+          "Technology Score": `${tS.toFixed(1)} / 5`,
+          "Full Responses": summary,
         }),
       });
-    } catch (e) { console.log("Submit error:", e); }
+    } catch (e) { console.log("Web3Forms error:", e); }
 
-    /* Beehiiv subscriber */
-    try { await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: info.email, name: info.name }) }); } catch (e) { console.log("BH:", e); }
     setSubmitting(false); setStep("results"); setTimeout(scrollTop, 100);
   };
 
@@ -616,10 +625,10 @@ export default function AIReadinessScore() {
           <span class="zone-badge">${zone.name} Zone</span>
         </div>
         <div class="scores">
-          <div class="score-item"><div class="score-num" style="color:#6B4C9A;">${pS.toFixed(1)}</div><div class="score-label">People</div></div>
-          <div class="score-item"><div class="score-num" style="color:#4a6741;">${prS.toFixed(1)}</div><div class="score-label">Process</div></div>
-          <div class="score-item"><div class="score-num" style="color:#c4993c;">${tS.toFixed(1)}</div><div class="score-label">Technology</div></div>
-          <div class="score-item"><div class="score-num" style="color:#1a2332;">${overall.toFixed(1)}</div><div class="score-label">Overall</div></div>
+          <div class="score-item"><div class="score-num" style="color:#6B4C9A;">${pS.toFixed(1)}<span style="font-size:14px;color:#8a8a8a;font-weight:400;"> / 5</span></div><div class="score-label">People</div></div>
+          <div class="score-item"><div class="score-num" style="color:#4a6741;">${prS.toFixed(1)}<span style="font-size:14px;color:#8a8a8a;font-weight:400;"> / 5</span></div><div class="score-label">Process</div></div>
+          <div class="score-item"><div class="score-num" style="color:#c4993c;">${tS.toFixed(1)}<span style="font-size:14px;color:#8a8a8a;font-weight:400;"> / 5</span></div><div class="score-label">Technology</div></div>
+          <div class="score-item"><div class="score-num" style="color:#1a2332;">${overall.toFixed(1)}<span style="font-size:14px;color:#8a8a8a;font-weight:400;"> / 5</span></div><div class="score-label">Overall</div></div>
         </div>
         <div class="section">
           <h2>Your Results</h2>
