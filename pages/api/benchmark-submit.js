@@ -1,10 +1,8 @@
 // pages/api/benchmark-submit.js
-// Handles: HubSpot contact creation + note attachment + email notification to Amy
+// Sends email notification via Resend when someone completes the benchmark
 //
-// Environment variables needed in Vercel:
-//   HUBSPOT_API_KEY        — HubSpot Private App access token
-//   RESEND_API_KEY         — Resend API key (free at resend.com/signup)
-//   NOTIFICATION_EMAIL     — Where to send notifications (amy@gaiaallies.com)
+// Environment variable needed in Vercel:
+//   RESEND_API_KEY — from resend.com dashboard
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -17,108 +15,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Email is required" });
   }
 
-  const results = { hubspot: null, email: null };
-
-  /* ═══════════════════════════════════════
-     1. CREATE OR UPDATE HUBSPOT CONTACT
-     ═══════════════════════════════════════ */
-  try {
-    // Search for existing contact by email
-    const searchRes = await fetch("https://api.hubapi.com/crm/v3/objects/contacts/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
-      },
-      body: JSON.stringify({
-        filterGroups: [{
-          filters: [{ propertyName: "email", operator: "EQ", value: info.email }],
-        }],
-      }),
-    });
-    const searchData = await searchRes.json();
-    let contactId;
-
-    if (searchData.total > 0) {
-      // Update existing contact
-      contactId = searchData.results[0].id;
-      await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
-        },
-        body: JSON.stringify({
-          properties: {
-            firstname: info.name?.split(" ")[0] || "",
-            lastname: info.name?.split(" ").slice(1).join(" ") || "",
-            company: info.firm,
-            jobtitle: info.role,
-            numemployees: info.firmSize,
-          },
-        }),
-      });
-    } else {
-      // Create new contact
-      const createRes = await fetch("https://api.hubapi.com/crm/v3/objects/contacts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
-        },
-        body: JSON.stringify({
-          properties: {
-            email: info.email,
-            firstname: info.name?.split(" ")[0] || "",
-            lastname: info.name?.split(" ").slice(1).join(" ") || "",
-            company: info.firm,
-            jobtitle: info.role,
-            numemployees: info.firmSize,
-          },
-        }),
-      });
-      const createData = await createRes.json();
-      contactId = createData.id;
-    }
-
-    /* ═══ 2. ATTACH NOTE WITH FULL SUMMARY ═══ */
-    if (contactId) {
-      // Create a note (engagement) with the full benchmark summary
-      const noteRes = await fetch("https://api.hubapi.com/crm/v3/objects/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
-        },
-        body: JSON.stringify({
-          properties: {
-            hs_timestamp: new Date().toISOString(),
-            hs_note_body: summary,
-          },
-          associations: [
-            {
-              to: { id: contactId },
-              types: [
-                {
-                  associationCategory: "HUBSPOT_DEFINED",
-                  associationTypeId: 202, // Note to Contact
-                },
-              ],
-            },
-          ],
-        }),
-      });
-
-      results.hubspot = noteRes.ok ? "success" : "note_failed";
-    }
-  } catch (e) {
-    console.error("HubSpot error:", e);
-    results.hubspot = "error";
-  }
-
-  /* ═══════════════════════════════════════
-     3. EMAIL NOTIFICATION TO AMY
-     ═══════════════════════════════════════ */
   try {
     const emailRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -127,8 +23,8 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "AI Ready Benchmark <benchmark@diagnostic.gaiaallies.com>",
-        to: [process.env.NOTIFICATION_EMAIL || "amy@gaiaallies.com"],
+        from: "AI Ready Benchmark <onboarding@resend.dev>",
+        to: ["amy@gaiaallies.com"],
         subject: `New Benchmark: ${info.firm} — ${zone} Zone (${scores.overall}/5)`,
         text: summary,
         html: `
@@ -140,24 +36,26 @@ export default async function handler(req, res) {
             </div>
 
             <div style="background: #f4f2ed; padding: 20px 28px; border: 1px solid #e8e4de;">
-              <div style="display: flex; gap: 16px; text-align: center;">
-                <div style="flex: 1;">
-                  <p style="font-size: 24px; font-weight: 700; color: #c4993c; margin: 0;">${scores.overall}</p>
-                  <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Overall</p>
-                </div>
-                <div style="flex: 1;">
-                  <p style="font-size: 24px; font-weight: 700; color: #6B4C9A; margin: 0;">${scores.people}</p>
-                  <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">People</p>
-                </div>
-                <div style="flex: 1;">
-                  <p style="font-size: 24px; font-weight: 700; color: #4a6741; margin: 0;">${scores.process}</p>
-                  <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Process</p>
-                </div>
-                <div style="flex: 1;">
-                  <p style="font-size: 24px; font-weight: 700; color: #c4993c; margin: 0;">${scores.tech}</p>
-                  <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Technology</p>
-                </div>
-              </div>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="text-align: center; padding: 8px;">
+                    <p style="font-size: 28px; font-weight: 700; color: #c4993c; margin: 0;">${scores.overall}</p>
+                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Overall</p>
+                  </td>
+                  <td style="text-align: center; padding: 8px;">
+                    <p style="font-size: 28px; font-weight: 700; color: #6B4C9A; margin: 0;">${scores.people}</p>
+                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">People</p>
+                  </td>
+                  <td style="text-align: center; padding: 8px;">
+                    <p style="font-size: 28px; font-weight: 700; color: #4a6741; margin: 0;">${scores.process}</p>
+                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Process</p>
+                  </td>
+                  <td style="text-align: center; padding: 8px;">
+                    <p style="font-size: 28px; font-weight: 700; color: #c4993c; margin: 0;">${scores.tech}</p>
+                    <p style="font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0;">Technology</p>
+                  </td>
+                </tr>
+              </table>
               <div style="text-align: center; margin-top: 12px;">
                 <span style="background: #1a2332; color: #c4993c; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 4px 14px; border-radius: 4px; text-transform: uppercase;">${zone} Zone</span>
               </div>
@@ -182,11 +80,15 @@ export default async function handler(req, res) {
       }),
     });
 
-    results.email = emailRes.ok ? "success" : "failed";
+    if (emailRes.ok) {
+      return res.status(200).json({ success: true });
+    } else {
+      const err = await emailRes.json();
+      console.error("Resend error:", err);
+      return res.status(200).json({ success: false, error: "email_failed" });
+    }
   } catch (e) {
-    console.error("Resend error:", e);
-    results.email = "error";
+    console.error("Email send error:", e);
+    return res.status(200).json({ success: false, error: "exception" });
   }
-
-  return res.status(200).json(results);
 }
