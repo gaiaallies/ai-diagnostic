@@ -397,7 +397,23 @@ export default function AIReadinessScore() {
   const submit = async () => {
     setSubmitting(true);
 
-    /* Send directly to Web3Forms - essential fields only */
+    /* Build individual question answers */
+    const qa = {};
+    const getAnswer = (q) => {
+      const val = answers[q.id];
+      if (val === undefined) return "Not answered";
+      if (q.isDataOnly) { const o = q.options.find(o => o.tag === val); return o ? o.label : "Not answered"; }
+      const o = q.options.find(o => o.score === val);
+      return o ? o.label : "Not answered";
+    };
+    QUESTIONS.people.forEach(q => { qa[`People - ${q.text}`] = getAnswer(q); });
+    QUESTIONS.process.forEach(q => { qa[`Process - ${q.text}`] = getAnswer(q); });
+    QUESTIONS.tech.forEach(q => {
+      if (q.showWhen && !q.showWhen(answers)) return;
+      qa[`Technology - ${q.text}`] = getAnswer(q);
+    });
+
+    /* Send directly to Web3Forms */
     try {
       const r = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -419,6 +435,7 @@ export default function AIReadinessScore() {
           people_score: `${pS.toFixed(1)} / 5`,
           process_score: `${prS.toFixed(1)} / 5`,
           tech_score: `${tS.toFixed(1)} / 5`,
+          ...qa,
         }),
       });
       const data = await r.json();
