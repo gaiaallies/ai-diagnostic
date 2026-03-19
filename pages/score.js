@@ -221,9 +221,10 @@ function ZoneScale({ activeZone }) {
         </div>); })}
     </div>
     <div style={{ display: "flex", gap: "4px" }}>
-      {ZONES.map(z => { const on = z.key === activeZone.key; return (
+      {ZONES.map(z => { const on = z.key === activeZone.key; const ranges = { foundation: "0 - 2.3", growth: "2.4 - 3.7", optimization: "3.8 - 4.8" }; return (
         <div key={z.key} style={{ flex: 1, textAlign: "center" }}>
           <p style={{ fontSize: on ? "13px" : "12px", fontWeight: on ? 600 : 400, color: on ? zc[z.key] : C.muted, fontFamily: SANS, transition: "all 0.3s", letterSpacing: on ? "0.5px" : "0" }}>{z.name}</p>
+          <p style={{ fontSize: "10px", color: C.muted, fontFamily: SANS, marginTop: "2px" }}>{ranges[z.key]}</p>
         </div>); })}
     </div>
   </div>);
