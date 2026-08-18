@@ -678,7 +678,7 @@ export default function AIReadinessScore() {
         <div class="cta">
           <h3>Ready for the full picture?</h3>
           <p>The AI Strategy Blueprint evaluates your firm in depth and delivers a comprehensive package you can act on immediately.</p>
-          <a href="https://gaiaallies.com/discover">See What Is Included</a>
+          <a href="https://www.gaiaallies.com/services#roadmap">See What Is Included</a>
         </div>
         <div class="footer">
           <p>Prepared for ${info.firm} | ${new Date().toLocaleDateString()}</p>
@@ -701,7 +701,7 @@ export default function AIReadinessScore() {
       <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>READY FOR THE FULL PICTURE?</p>
       <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The AI Strategy Blueprint</h3>
       <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>See everything this benchmark cannot show you. Your full workflows, your team dynamics, your technology utilization, all evaluated in depth with a comprehensive deliverable package you can act on immediately.</p>
-      <a href="https://gaiaallies.com/discover" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
+      <a href="https://www.gaiaallies.com/services#roadmap" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
     </div>
 
     <div style={{ textAlign: "center", paddingTop: "16px" }}>
