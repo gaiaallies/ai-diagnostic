@@ -174,16 +174,16 @@ const QUESTIONS = {
 const ZONES = [
   { key: "foundation", name: "Foundation", tagline: "Your firm is at the starting line, and that is exactly the right place to begin.",
     desc: "Most firms are here. You have the tools and the talent, but AI has not been formally integrated into how your team works. The gap between where you are and where you could be represents significant untapped capacity.",
-    steps: ["Establish a written AI usage policy before team members adopt tools without guardrails","Identify one AI champion inside the firm to lead from within","Book a discovery session to map exactly where AI fits your workflows"],
-    cta: "Firms in the Foundation zone typically see the fastest transformation because there is so much low-hanging fruit. One structured engagement can shift the entire trajectory." },
+    steps: ["Establish a written AI usage policy before team members adopt tools without guardrails","Identify one AI champion inside the firm to lead from within","Map exactly where AI fits your workflows before adding new tools"],
+    cta: "Firms in the Foundation zone typically see the fastest transformation because there is so much low-hanging fruit. A written policy and one internal champion can shift the entire trajectory." },
   { key: "growth", name: "Growth", tagline: "You have the pieces. Now it is time to connect them.",
     desc: "Your firm has started the AI conversation and may even be using some tools. But usage is uneven, training has been informal, and there is a gap between the features you own and the features your team uses daily. This is the most common zone for firms that are paying for AI capabilities they are not fully leveraging.",
     steps: ["Audit which AI features your current platforms offer versus what your team actually uses","Formalize your AI policy and make it part of onboarding","Invest in structured, role-based training so every team member has a clear pathway"],
-    cta: "Firms in the Growth zone have the infrastructure. What is missing is the activation. A focused discovery and implementation engagement closes that gap fast." },
+    cta: "Firms in the Growth zone have the infrastructure. What is missing is the activation. Structured, role-based training closes that gap fast." },
   { key: "optimization", name: "Optimization", tagline: "You are ahead of most firms. Now it is about compounding your advantage.",
     desc: "Your team is using AI tools, you have some governance in place, and adoption is underway. The opportunity now is optimization: refining workflows, deepening feature utilization, training new hires into your AI-forward culture, and making sure your competitive edge widens rather than plateaus.",
-    steps: ["Conduct a workflow audit to identify remaining manual bottlenecks","Build a custom prompt library and knowledge base tailored to your practice area","Consider a fractional Chief AI Officer to keep your firm on the leading edge as platforms evolve"],
-    cta: "Firms in the Optimization zone benefit most from ongoing advisory and advanced training. You do not need to start from scratch. You need a strategic partner who keeps you ahead." },
+    steps: ["Conduct a workflow audit to identify remaining manual bottlenecks","Build a custom prompt library and knowledge base tailored to your practice area","Name an internal owner to keep your firm on the leading edge as platforms evolve"],
+    cta: "Firms in the Optimization zone benefit most from ongoing advisory and advanced training. You do not need to start from scratch. You need a standing plan that keeps you ahead." },
 ];
 function getZone(s) { if (s <= 2.3) return ZONES[0]; if (s <= 3.7) return ZONES[1]; return ZONES[2]; }
 
@@ -571,31 +571,9 @@ export default function AIReadinessScore() {
       </div>
     </div>
     <div style={{ background: `${C.gold}10`, border: `1px solid ${C.gold}30`, borderRadius: "8px", padding: "16px 20px", marginBottom: "28px" }}>
-      <p style={{ fontSize: "13px", color: C.text, lineHeight: 1.7, margin: 0 }}><strong style={{ color: C.gold }}>About this benchmark:</strong> This reflects what you shared today and provides a directional view of where your firm stands. The AI Strategy Blueprint is a comprehensive, hands-on engagement that evaluates your full workflows, team dynamics, and technology utilization in depth. That is where the complete picture emerges.</p>
+      <p style={{ fontSize: "13px", color: C.text, lineHeight: 1.7, margin: 0 }}><strong style={{ color: C.gold }}>About this benchmark:</strong> This reflects what you shared today and provides a directional view of where your firm stands. Use it as a starting point for your own planning with your team.</p>
     </div>
 
-    {/* Sneak Peek - Zone Dynamic */}
-    <div style={{ marginBottom: "28px" }}>
-      <button onClick={() => setShowPeek(!showPeek)} style={{
-        width: "100%", background: `linear-gradient(135deg, ${C.dark}, #2d3b4a)`,
-        border: `2px solid ${C.gold}50`, borderRadius: "12px", padding: "28px 28px",
-        cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-        transition: "all 0.3s", boxShadow: "0 4px 16px rgba(26,35,50,0.15)",
-      }} onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.boxShadow = "0 6px 24px rgba(196,153,60,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.gold}50`; e.currentTarget.style.boxShadow = "0 4px 16px rgba(26,35,50,0.15)"; }}>
-        <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>WHAT YOU UNLOCK</p>
-        <p style={{ fontSize: "19px", fontWeight: 600, color: "#fff", marginBottom: "12px", textAlign: "center" }}>Inside the AI Strategy Blueprint</p>
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", marginBottom: "14px", textAlign: "center" }}>Tailored to your {zone.name} Zone results</p>
-        <span style={{ fontSize: "28px", color: C.gold, transition: "transform 0.3s", transform: showPeek ? "rotate(180deg)" : "rotate(0)", lineHeight: 1 }}>&#9662;</span>
-      </button>
-      {showPeek && <div style={{ marginTop: "10px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-        {(PEEK_BY_ZONE[zone.key] || PEEK_BY_ZONE.foundation).map((item, i) => { const pc = { PEOPLE: C.people, PROCESS: C.process, TECHNOLOGY: C.data, "FIRM-WIDE": C.dark }; return (
-          <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderLeft: `3px solid ${pc[item.pillar] || C.dark}`, borderRadius: "10px", padding: "16px 16px 16px 18px", opacity: 0, animation: `fadeSlide 0.4s ease ${i * 0.07}s forwards` }}>
-            <PillarBadge pillar={item.pillar} />
-            <p style={{ fontSize: "14px", fontWeight: 600, color: C.body, marginTop: "8px", marginBottom: "4px", lineHeight: 1.4 }}>{item.title}</p>
-            <p style={{ fontSize: "13px", color: C.text, lineHeight: 1.5, margin: 0 }}>{item.desc}</p>
-          </div>); })}
-      </div>}
-    </div>
 
     {/* Save / Print Results */}
     <div style={{ textAlign: "center", marginBottom: "28px" }}>
@@ -669,17 +647,7 @@ export default function AIReadinessScore() {
           <h2>Recommended Next Steps</h2>
           ${zone.steps.map((s, i) => `<div class="step"><span class="step-num">${i + 1}</span><p style="font-size:14px;color:#1a1a2e;">${s}</p></div>`).join("")}
         </div>
-        <div class="section">
-          <h2>What the AI Strategy Blueprint Reveals</h2>
-          <div class="unlock-grid">
-            ${peekItems.map(item => `<div class="unlock-card"><h4>${item.title}</h4><p>${item.desc}</p></div>`).join("")}
-          </div>
-        </div>
-        <div class="cta">
-          <h3>Ready for the full picture?</h3>
-          <p>The AI Strategy Blueprint evaluates your firm in depth and delivers a comprehensive package you can act on immediately.</p>
-          <a href="https://www.gaiaallies.com/services#roadmap">See What Is Included</a>
-        </div>
+<div class="cta">          <h3>See it in practice</h3>          <p>Read how one litigation firm put these steps to work on real matters.</p>          <a href="https://www.gaiaallies.com/case-study">Read the Case Study</a>        </div>
         <div class="footer">
           <p>Prepared for ${info.firm} | ${new Date().toLocaleDateString()}</p>
           <p>Gaia Allies | AI Ready | gaiaallies.com/aiready</p>
@@ -698,10 +666,7 @@ export default function AIReadinessScore() {
 
     {/* CTA */}
     <div style={{ background: `linear-gradient(165deg, ${C.dark} 0%, #2d3b4a 40%, #3a4f3a 100%)`, borderRadius: "12px", padding: "40px 28px", textAlign: "center", marginBottom: "20px" }}>
-      <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>READY FOR THE FULL PICTURE?</p>
-      <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The AI Strategy Blueprint</h3>
-      <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>See everything this benchmark cannot show you. Your full workflows, your team dynamics, your technology utilization, all evaluated in depth with a comprehensive deliverable package you can act on immediately.</p>
-      <a href="https://www.gaiaallies.com/services#roadmap" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>See What Is Included</a>
+<p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: C.gold, marginBottom: "8px" }}>SEE IT IN PRACTICE</p>      <h3 style={{ fontFamily: SERIF, fontSize: "clamp(24px, 4vw, 30px)", fontWeight: "normal", color: "#fff", lineHeight: 1.3, marginBottom: "12px" }}>The Litigation Firm Case Study</h3>      <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px", margin: "0 auto 28px" }}>Read how one 20-person litigation firm put these steps to work on real matters, and cut discovery drafting from hours to minutes.</p>      <a href="https://www.gaiaallies.com/case-study" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.gold, color: C.dark, border: "none", borderRadius: "6px", padding: "15px 36px", fontSize: "15px", fontWeight: 600, fontFamily: SANS, textDecoration: "none", letterSpacing: "0.5px" }}>Read the Case Study</a>
     </div>
 
     <div style={{ textAlign: "center", paddingTop: "16px" }}>
